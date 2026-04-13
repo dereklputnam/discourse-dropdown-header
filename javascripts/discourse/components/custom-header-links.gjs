@@ -1,13 +1,16 @@
 import { tracked } from "@glimmer/tracking";
 import Component from "@ember/component";
-import { hash } from "@ember/helper";
+import { fn, hash } from "@ember/helper";
+import { on } from "@ember/modifier";
 import { action } from "@ember/object";
 import { service } from "@ember/service";
 import DButton from "discourse/components/d-button";
 import concatClass from "discourse/helpers/concat-class";
 import closeOnClickOutside from "discourse/modifiers/close-on-click-outside";
+import DiscourseURL from "discourse/lib/url";
 import { i18n } from "discourse-i18n";
 import CustomHeaderLink from "./custom-header-link";
+import CustomIcon from "./custom-icon";
 
 export default class CustomHeaderLinks extends Component {
   @service siteSettings;
@@ -28,6 +31,37 @@ export default class CustomHeaderLinks extends Component {
 
   get headerLinks() {
     return JSON.parse(settings.header_links);
+  }
+
+  get singleParentDropdownLinks() {
+    if (this.headerLinks.length !== 1) {
+      return null;
+    }
+
+    const parent = this.headerLinks[0];
+    const allDropdownItems = settings.dropdown_links
+      ? JSON.parse(settings.dropdown_links)
+      : [];
+    const children = allDropdownItems.filter(
+      (d) => d.headerLinkId === parent.id
+    );
+
+    return children.length > 0 ? children : null;
+  }
+
+  @action
+  redirectToUrl(item, event) {
+    if (this.site.mobileView) {
+      this.toggleHeaderLinks();
+    }
+
+    if (item.newTab) {
+      window.open(item.url, "_blank");
+    } else {
+      DiscourseURL.routeTo(item.url);
+    }
+
+    event.stopPropagation();
   }
 
   <template>
@@ -59,12 +93,26 @@ export default class CustomHeaderLinks extends Component {
             )
           )}}
         >
-          {{#each this.headerLinks as |item|}}
-            <CustomHeaderLink
-              @item={{item}}
-              @toggleHeaderLinks={{this.toggleHeaderLinks}}
-            />
-          {{/each}}
+          {{#if this.singleParentDropdownLinks}}
+            {{#each this.singleParentDropdownLinks as |item|}}
+              <li
+                class="custom-header-link with-url"
+                title={{item.title}}
+                role="button"
+                {{on "click" (fn this.redirectToUrl item)}}
+              >
+                <CustomIcon @icon={{item.icon}} />
+                <span class="custom-header-link-title">{{item.title}}</span>
+              </li>
+            {{/each}}
+          {{else}}
+            {{#each this.headerLinks as |item|}}
+              <CustomHeaderLink
+                @item={{item}}
+                @toggleHeaderLinks={{this.toggleHeaderLinks}}
+              />
+            {{/each}}
+          {{/if}}
         </ul>
       {{/if}}
     </nav>
