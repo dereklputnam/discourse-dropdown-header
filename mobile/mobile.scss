@@ -17,7 +17,8 @@
     align-items: flex-start;
     align-content: flex-start;
     justify-content: flex-start;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     max-height: 90vh;
     list-style: none;
     gap: 0.25rem;
