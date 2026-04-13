@@ -2,8 +2,13 @@
 
 .mobile-view {
   .top-level-links {
-    @include dropdown;
     position: fixed;
+    background-color: $dropdown_background_color;
+    border: 1px solid $dropdown_border_color;
+    border-bottom: none;
+    box-shadow: none;
+    z-index: z("header") + 1;
+    padding: 0.5em 0.5em 0.5em 1.25em;
     left: 0;
     margin: 0;
     top: var(--header-offset);
@@ -14,16 +19,11 @@
     justify-content: flex-start;
     overflow: scroll;
     max-height: 90vh;
-    padding-left: 1.25em;
-    padding-bottom: 0;
-    border-bottom: none;
-    box-shadow: none;
+    list-style: none;
     gap: 0.25rem;
 
     li {
       width: 100%;
-      padding: 0;
-      margin: 0;
 
       @media screen and (width >= 768px) {
         width: auto;
@@ -31,7 +31,7 @@
     }
 
     li.custom-header-link {
-      padding: 0;
+      padding: 0 !important;
     }
   }
 

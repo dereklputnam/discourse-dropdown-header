@@ -9,8 +9,13 @@
 
   @media screen and (width <= 625px) {
     .top-level-links {
-      @include dropdown;
       position: fixed;
+      background-color: $dropdown_background_color;
+      border: 1px solid $dropdown_border_color;
+      border-bottom: none;
+      box-shadow: none;
+      z-index: z("header") + 1;
+      padding: 0.5em 0.5em 0.5em 1.25em;
       left: 0;
       margin: 0;
       top: var(--header-offset);
@@ -22,20 +27,14 @@
       overflow: scroll;
       max-height: 90vh;
       list-style: none;
-      padding-left: 1.25em;
-      padding-bottom: 0;
-      border-bottom: none;
-      box-shadow: none;
       gap: 0.4rem;
 
       li {
         width: 100%;
-        padding: 0;
-        margin: 0;
       }
 
       li.custom-header-link {
-        padding: 0;
+        padding: 0 !important;
       }
     }
 
