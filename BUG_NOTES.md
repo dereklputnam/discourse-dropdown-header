@@ -30,7 +30,14 @@ flyout context (both `mobile.scss` and `desktop.scss` at the narrow
 breakpoint). The `border-bottom` can also be removed since a full-width
 panel doesn't need the floating-box treatment.
 
-## Secondary Issue (padding)
+## Secondary Issue (scrollbar track)
+`mobile.scss` sets `overflow: scroll` on `.top-level-links`. This forces
+**both** x and y scrollbar tracks to always render, even when content
+fits within `max-height`. The horizontal scrollbar track (~15px) appears
+at the bottom of the flyout panel and is visually indistinguishable from
+a padding band. Fix: use `overflow-y: auto; overflow-x: hidden` instead.
+
+## Tertiary Issue (padding)
 `common.scss` sets `padding-block: 0.5rem` on `.custom-header-link`
 (the top-level `<li>` items). This is appropriate for horizontal desktop
 layout (items sit side-by-side in the header bar). In the vertical flyout,
