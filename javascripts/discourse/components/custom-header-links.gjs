@@ -12,11 +12,36 @@ import { i18n } from "discourse-i18n";
 import CustomHeaderLink from "./custom-header-link";
 import CustomIcon from "./custom-icon";
 
+const NARROW_MQ = "(max-width: 712px)";
+
 export default class CustomHeaderLinks extends Component {
   @service siteSettings;
   @service site;
 
-  @tracked showLinks = !this.site.mobileView;
+  @tracked _isNarrow = window.matchMedia(NARROW_MQ).matches;
+  @tracked showLinks =
+    !this.site.mobileView && !window.matchMedia(NARROW_MQ).matches;
+
+  get isNarrowView() {
+    return this.site.mobileView || this._isNarrow;
+  }
+
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+    this._mq = window.matchMedia(NARROW_MQ);
+    this._mqHandler = (e) => {
+      this._isNarrow = e.matches;
+      if (!this.site.mobileView) {
+        this.showLinks = !e.matches;
+      }
+    };
+    this._mq.addEventListener("change", this._mqHandler);
+  }
+
+  willDestroyElement() {
+    super.willDestroyElement(...arguments);
+    this._mq?.removeEventListener("change", this._mqHandler);
+  }
 
   @action
   toggleHeaderLinks() {
@@ -34,7 +59,7 @@ export default class CustomHeaderLinks extends Component {
   }
 
   get singleParentDropdownLinks() {
-    if (!this.site.mobileView) {
+    if (!this.isNarrowView) {
       return null;
     }
 
@@ -55,7 +80,7 @@ export default class CustomHeaderLinks extends Component {
 
   @action
   redirectToUrl(item, event) {
-    if (this.site.mobileView) {
+    if (this.isNarrowView) {
       this.toggleHeaderLinks();
     }
 
@@ -75,7 +100,7 @@ export default class CustomHeaderLinks extends Component {
         (if @outletArgs.minimized "scrolling")
       }}
     >
-      {{#if this.site.mobileView}}
+      {{#if this.isNarrowView}}
         <span class="btn-custom-header-dropdown-mobile">
           <DButton
             @icon="square-caret-down"
@@ -89,7 +114,7 @@ export default class CustomHeaderLinks extends Component {
         <ul
           class="top-level-links"
           {{(if
-            this.site.mobileView
+            this.isNarrowView
             (modifier
               closeOnClickOutside
               this.toggleHeaderLinks
