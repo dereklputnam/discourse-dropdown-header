@@ -7,5 +7,13 @@
     .d-icon {
       color: var(--header_primary-low-mid);
     }
+
+    &:hover {
+      background: var(--primary-low);
+
+      .d-icon {
+        color: var(--primary-high);
+      }
+    }
   }
 }
