@@ -30,6 +30,7 @@
       cursor: pointer;
 
       &:hover {
+        color: $main_link_color;
         background: $dropdown_item_hover_background_color;
       }
     }
