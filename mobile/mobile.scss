@@ -13,6 +13,7 @@
     justify-content: flex-start;
     overflow: scroll;
     max-height: 90vh;
+    padding-left: 1.25em;
 
     li {
       width: 100%;
@@ -20,6 +21,10 @@
       @media screen and (width >= 768px) {
         width: auto;
       }
+    }
+
+    .custom-header-link {
+      padding-block: 0.25rem;
     }
   }
 

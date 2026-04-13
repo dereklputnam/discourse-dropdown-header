@@ -7,7 +7,7 @@
     display: flex;
   }
 
-  @media screen and (width <= 712px) {
+  @media screen and (width <= 925px) {
     .top-level-links {
       @include dropdown;
       position: fixed;
@@ -21,9 +21,14 @@
       overflow: scroll;
       max-height: 90vh;
       list-style: none;
+      padding-left: 1.25em;
 
       li {
         width: 100%;
+      }
+
+      .custom-header-link {
+        padding-block: 0.25rem;
       }
     }
 
@@ -42,7 +47,7 @@
   }
 }
 
-@media screen and (width <= 712px) {
+@media screen and (width <= 925px) {
   body.dropdown-header-open {
     overflow-y: hidden;
     height: 100vh;
