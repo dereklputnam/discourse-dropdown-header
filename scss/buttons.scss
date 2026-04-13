@@ -9,11 +9,7 @@
     }
 
     &:hover {
-      background: var(--primary-low);
-
-      .d-icon {
-        color: var(--primary-high);
-      }
+      background: var(--d-header-icon-background--hover);
     }
   }
 }
