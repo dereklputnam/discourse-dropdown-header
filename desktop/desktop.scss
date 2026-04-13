@@ -34,11 +34,12 @@
       > div > li.custom-header-link {
         padding: 0.5em !important;
         width: 100% !important;
-        border-bottom: 1px solid $dropdown_border_color;
+        color: $dropdown_item_color;
         cursor: pointer;
 
-        &:last-child {
-          border-bottom: none;
+        &:hover {
+          color: $dropdown_item_hover_color;
+          background: $dropdown_item_hover_background_color;
         }
       }
     }
