@@ -12,7 +12,7 @@ import { i18n } from "discourse-i18n";
 import CustomHeaderLink from "./custom-header-link";
 import CustomIcon from "./custom-icon";
 
-const NARROW_MQ = "(max-width: 925px)";
+const NARROW_MQ = "(max-width: 625px)";
 
 export default class CustomHeaderLinks extends Component {
   @service siteSettings;
