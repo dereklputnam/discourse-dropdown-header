@@ -34,6 +34,10 @@ export default class CustomHeaderLinks extends Component {
   }
 
   get singleParentDropdownLinks() {
+    if (!this.site.mobileView) {
+      return null;
+    }
+
     if (this.headerLinks.length !== 1) {
       return null;
     }
