@@ -17,6 +17,7 @@
       width: 100%;
       flex-flow: row wrap;
       align-items: flex-start;
+      align-content: flex-start;
       justify-content: flex-start;
       overflow: scroll;
       max-height: 90vh;
@@ -28,10 +29,12 @@
 
       li {
         width: 100%;
+        padding: 0;
+        margin: 0;
       }
 
-      .custom-header-link {
-        padding-block: 0;
+      li.custom-header-link {
+        padding: 0;
       }
     }
 
