@@ -34,11 +34,9 @@
       > div > li.custom-header-link {
         padding: 0.5em !important;
         width: 100% !important;
-        color: $dropdown_item_color;
         cursor: pointer;
 
         &:hover {
-          color: $dropdown_item_hover_color;
           background: $dropdown_item_hover_background_color;
         }
       }
