@@ -11,8 +11,15 @@
     flex-flow: row wrap;
     align-items: flex-start;
     justify-content: flex-start;
-    overflow: scroll;
+    // overflow: scroll forces both x and y scrollbar tracks to always render,
+    // adding ~15px of blank space at the bottom even when content fits.
+    overflow-y: auto;
+    overflow-x: hidden;
     max-height: 90vh;
+    // @include dropdown adds box-shadow for a compact floating box, but the
+    // mobile flyout is position: fixed; width: 100%, so the shadow spans the
+    // full viewport width and appears as a dark band below the last link.
+    box-shadow: none;
 
     li {
       width: 100%;
