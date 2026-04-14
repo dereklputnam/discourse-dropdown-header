@@ -19,7 +19,8 @@ export default class CustomHeaderLinks extends Component {
   @service site;
 
   @tracked _isNarrow = window.matchMedia(NARROW_MQ).matches;
-  @tracked showLinks = false;
+  @tracked showLinks =
+    !this.site.mobileView && !window.matchMedia(NARROW_MQ).matches;
 
   get isNarrowView() {
     return this.site.mobileView || this._isNarrow;
@@ -30,11 +31,8 @@ export default class CustomHeaderLinks extends Component {
     this._mq = window.matchMedia(NARROW_MQ);
     this._mqHandler = (e) => {
       this._isNarrow = e.matches;
-      // Always close the flyout when crossing the breakpoint in either
-      // direction — prevents the flyout from staying open across resizes.
       if (!this.site.mobileView) {
-        this.showLinks = false;
-        document.body.classList.remove("dropdown-header-open");
+        this.showLinks = !e.matches;
       }
     };
     this._mq.addEventListener("change", this._mqHandler);
@@ -110,44 +108,40 @@ export default class CustomHeaderLinks extends Component {
             @action={{this.toggleHeaderLinks}}
           />
         </span>
-        {{#if this.showLinks}}
-          <ul
-            class="top-level-links"
-            {{closeOnClickOutside
+      {{/if}}
+
+      {{#if this.showLinks}}
+        <ul
+          class="top-level-links"
+          {{(if
+            this.isNarrowView
+            (modifier
+              closeOnClickOutside
               this.toggleHeaderLinks
               (hash target=this.element)
-            }}
-          >
-            {{#if this.singleParentDropdownLinks}}
-              {{#each this.singleParentDropdownLinks as |item|}}
-                <li
-                  class="custom-header-link with-url"
-                  title={{item.title}}
-                  role="button"
-                  {{on "click" (fn this.redirectToUrl item)}}
-                >
-                  <CustomIcon @icon={{item.icon}} />
-                  <span class="custom-header-link-title">{{item.title}}</span>
-                </li>
-              {{/each}}
-            {{else}}
-              {{#each this.headerLinks as |item|}}
-                <CustomHeaderLink
-                  @item={{item}}
-                  @toggleHeaderLinks={{this.toggleHeaderLinks}}
-                />
-              {{/each}}
-            {{/if}}
-          </ul>
-        {{/if}}
-      {{else}}
-        <ul class="top-level-links">
-          {{#each this.headerLinks as |item|}}
-            <CustomHeaderLink
-              @item={{item}}
-              @toggleHeaderLinks={{this.toggleHeaderLinks}}
-            />
-          {{/each}}
+            )
+          )}}
+        >
+          {{#if this.singleParentDropdownLinks}}
+            {{#each this.singleParentDropdownLinks as |item|}}
+              <li
+                class="custom-header-link with-url"
+                title={{item.title}}
+                role="button"
+                {{on "click" (fn this.redirectToUrl item)}}
+              >
+                <CustomIcon @icon={{item.icon}} />
+                <span class="custom-header-link-title">{{item.title}}</span>
+              </li>
+            {{/each}}
+          {{else}}
+            {{#each this.headerLinks as |item|}}
+              <CustomHeaderLink
+                @item={{item}}
+                @toggleHeaderLinks={{this.toggleHeaderLinks}}
+              />
+            {{/each}}
+          {{/if}}
         </ul>
       {{/if}}
     </nav>
