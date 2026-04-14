@@ -4,7 +4,7 @@
   .top-level-links {
     position: fixed !important;
     background-color: $dropdown_background_color;
-    border: 1px solid $dropdown_border_color;
+    border: 1px solid var(--primary);
     box-shadow: none !important;
     z-index: z("header") + 1;
     padding: 0 !important;
